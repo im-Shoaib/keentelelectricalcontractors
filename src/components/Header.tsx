@@ -76,17 +76,20 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  // Smooth scroll for anchor links - FIXED TypeScript error
   useEffect(() => {
     const anchors = document.querySelectorAll('a[href^="#"]');
     anchors.forEach(anchor => {
       anchor.addEventListener("click", (e) => {
-        const targetId = anchor.getAttribute("href");
-        if (targetId === "#") return;
-        const target = document.querySelector(targetId);
-        if (target) {
-          e.preventDefault();
-          target.scrollIntoView({ behavior: "smooth", block: "start" });
-          if (navRef.current?.classList.contains("active")) closeMenu();
+        const href = anchor.getAttribute("href");
+        // Check if href is a string and not just "#"
+        if (href && href !== "#") {
+          const target = document.querySelector(href);
+          if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: "smooth", block: "start" });
+            if (navRef.current?.classList.contains("active")) closeMenu();
+          }
         }
       });
     });
