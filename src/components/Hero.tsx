@@ -3,7 +3,11 @@
 
 export default function Hero() {
   return (
-    <section className="sec1-hero">
+    <section 
+      className="sec1-hero" 
+      style={{ backgroundImage: "url('/assets/hero_bg.png')" }}
+    >
+      <div className="sec1-hero__overlay"></div>
       <div className="sec1-hero__inner">
         <div className="sec1-hero__content">
           <span className="sec1-hero__badge">Top-Rated Electricians</span>
@@ -17,13 +21,8 @@ export default function Hero() {
             <a href="tel:8133950000" className="btn btn--secondary">Call Us Now</a>
           </div>
         </div>
-        <div className="sec1-hero__visual">
-          <div className="sec1-hero__visual-inner">
-            <img src="/assets/eng.webp" alt="Keentel electrician" className="hero-placeholder-img" />
-            <div className="sec1-hero__visual-badge">
-              <strong>30+</strong> Years<br />Experience
-            </div>
-          </div>
+        <div className="sec1-hero__floating-badge">
+          <strong>30+</strong> Years<br />Experience
         </div>
       </div>
     </section>
