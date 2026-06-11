@@ -1527,7 +1527,7 @@
 .sec7-trust {
     position: relative;
     padding: 100px 20px;
-    background-image: url('assets/sec7.jpg'); /* Replace with your image */
+    background-image: url('/assets/sec7.jpg'); 
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* optional parallax effect */
