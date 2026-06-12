@@ -1,12 +1,46 @@
 // src/components/IndustrialServices.tsx
 "use client";
 
+import { useEffect, useRef } from "react";
+
 export default function IndustrialServices() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const animatedRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const elements = [
+      '.sec6-industrial__badge',
+      '.sec6-industrial__title',
+      '.sec6-industrial__intro',
+      '.sec6-industrial__grid',
+      '.sec6-industrial__footer'
+    ].map(sel => document.querySelector(sel)).filter(Boolean);
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animatedRef.current) {
+          elements.forEach((el, idx) => {
+            setTimeout(() => el?.classList.add('animated'), idx * 100);
+          });
+          animatedRef.current = true;
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="sec6-industrial">
+    <section ref={sectionRef} className="sec6-industrial">
       <div className="sec6-industrial__inner">
         <div className="sec6-industrial__header">
-          <span className="sec6-industrial__badge">Industrial Services</span>
+          <span className="sec6-industrial__badge">
+            <span className="sec6-industrial__badge-dot"></span>
+            Industrial Services
+          </span>
           <h2 className="sec6-industrial__title">Industrial Electrical Services</h2>
           <p className="sec6-industrial__intro">
             We offer specialized services for industrial facilities, ensuring that your electrical systems meet the high demands of industrial operations. From high-voltage installations to motor control systems and backup power solutions, our team provides safe and reliable solutions that optimize your facility's electrical performance.
