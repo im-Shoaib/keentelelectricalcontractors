@@ -3,15 +3,17 @@
 
 export default function Hero() {
   return (
-    <section 
-      className="sec1-hero" 
-      style={{ backgroundImage: "url('/assets/hero_bg.png')" }}
-    >
+    <section className="sec1-hero" style={{ backgroundImage: "url('/assets/hero_bg.png')" }}>
       <div className="sec1-hero__overlay"></div>
       <div className="sec1-hero__inner">
         <div className="sec1-hero__content">
-          <span className="sec1-hero__badge">Top-Rated Electricians</span>
-          <h1 className="sec1-hero__title">Top-Rated Electricians in Tampa, FL</h1>
+          <span className="sec1-hero__badge">
+            <span className="sec1-hero__badge-dot"></span>
+            Top-Rated Electricians
+          </span>
+          <h1 className="sec1-hero__title">
+            Top-Rated Electricians in <span style={{ color: "#a6238f" }}>Tampa, FL</span>
+          </h1>
           <p className="sec1-hero__subtitle">Residential, Commercial & Industrial Electrical Experts</p>
           <p className="sec1-hero__desc">
             Keentel Electrical Contractors delivers licensed, code-compliant electrical services backed by 30+ years of proven field experience across Tampa and surrounding Florida counties. Our certified electricians specialize in safe installations, precision repairs, emergency response, and advanced electrical systems for homes, businesses, and industrial facilities.
