@@ -48,8 +48,7 @@ export default function CommercialServices() {
         </div>
 
         <div className="sec5-commercial__grid">
-          {/* Repeat cards exactly as in your HTML, with /assets/ prefix */}
-          <!-- I'll keep only one card for brevity; you must copy all 6 cards from your HTML -->
+          {/* Card 1 */}
           <div className="sec5-commercial__card">
             <div className="sec5-commercial__card-image">
               <img src="/assets/COmmercial+Commercial+New+construction+electrical+installation-1920w.webp" alt="New construction electrical installation" className="sec5-commercial__card-img" />
@@ -60,7 +59,66 @@ export default function CommercialServices() {
               <a href="#" className="sec5-commercial__card-link">Learn more →</a>
             </div>
           </div>
-          {/* Add the other 5 cards exactly as from your original HTML, with /assets/ */}
+
+          {/* Card 2 */}
+          <div className="sec5-commercial__card">
+            <div className="sec5-commercial__card-image">
+              <img src="/assets/Commercial+Office+and+retail+wiring-1920w.webp" alt="Office and retail wiring" className="sec5-commercial__card-img" />
+            </div>
+            <div className="sec5-commercial__card-content">
+              <h3 className="sec5-commercial__card-title">Office and Retail Wiring</h3>
+              <p className="sec5-commercial__card-desc">Optimize your workspace with tailored wiring solutions that ensure safety and enhance operational efficiency.</p>
+              <a href="#" className="sec5-commercial__card-link">Learn more →</a>
+            </div>
+          </div>
+
+          {/* Card 3 */}
+          <div className="sec5-commercial__card">
+            <div className="sec5-commercial__card-image">
+              <img src="/assets/Industrial+Equioment+Wiring-1920w.webp" alt="Industrial equipment wiring" className="sec5-commercial__card-img" />
+            </div>
+            <div className="sec5-commercial__card-content">
+              <h3 className="sec5-commercial__card-title">Industrial Equipment Wiring</h3>
+              <p className="sec5-commercial__card-desc">Rely on our robust wiring services for industrial equipment, designed to meet the highest standards of durability and performance.</p>
+              <a href="#" className="sec5-commercial__card-link">Learn more →</a>
+            </div>
+          </div>
+
+          {/* Card 4 */}
+          <div className="sec5-commercial__card">
+            <div className="sec5-commercial__card-image">
+              <img src="/assets/Commercial+Lighting+-+Energy+Efficiency+Solutions-1920w.webp" alt="Commercial lighting design" className="sec5-commercial__card-img" />
+            </div>
+            <div className="sec5-commercial__card-content">
+              <h3 className="sec5-commercial__card-title">Lighting Design and Installation</h3>
+              <p className="sec5-commercial__card-desc">Create the perfect ambiance and improve energy efficiency with our custom lighting solutions for commercial spaces.</p>
+              <a href="#" className="sec5-commercial__card-link">Learn more →</a>
+            </div>
+          </div>
+
+          {/* Card 5 */}
+          <div className="sec5-commercial__card">
+            <div className="sec5-commercial__card-image">
+              <img src="/assets/Industrial+Emergency+power+solutions+(GeneratorsUPS)-1920w.webp" alt="Emergency power solutions" className="sec5-commercial__card-img" />
+            </div>
+            <div className="sec5-commercial__card-content">
+              <h3 className="sec5-commercial__card-title">Emergency Power Solutions (Generators/UPS)</h3>
+              <p className="sec5-commercial__card-desc">Keep your operations running without interruption with our reliable emergency power solutions, including generators and UPS systems.</p>
+              <a href="#" className="sec5-commercial__card-link">Learn more →</a>
+            </div>
+          </div>
+
+          {/* Card 6 */}
+          <div className="sec5-commercial__card">
+            <div className="sec5-commercial__card-image">
+              <img src="/assets/Commercial+Electrical+maintenance+contracts+-+Copy-1920w.webp" alt="Electrical maintenance contracts" className="sec5-commercial__card-img" />
+            </div>
+            <div className="sec5-commercial__card-content">
+              <h3 className="sec5-commercial__card-title">Electrical Maintenance Contracts</h3>
+              <p className="sec5-commercial__card-desc">Maintain peak operational efficiency with our comprehensive electrical maintenance contracts, minimizing downtime and extending equipment lifespan.</p>
+              <a href="#" className="sec5-commercial__card-link">Learn more →</a>
+            </div>
+          </div>
         </div>
 
         <div className="sec5-commercial__footer">
