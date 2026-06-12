@@ -31,10 +31,10 @@ export default function Header() {
     }
   };
 
-  const attachMobileDropdownHandlers = () => {
+  const attachTopLevelDropdownHandlers = () => {
     const topToggles = document.querySelectorAll(".nav-item-has-dropdown > .dropdown-toggle");
     topToggles.forEach(toggle => {
-      if ((toggle as any).hasListener) return;
+      if ((toggle as any).hasTopLevelListener) return;
       const dropdownMenu = toggle.nextElementSibling;
       if (dropdownMenu?.classList.contains("dropdown-menu")) {
         toggle.addEventListener("click", (e) => {
@@ -42,10 +42,12 @@ export default function Header() {
           dropdownMenu.classList.toggle("show-mobile");
           toggle.classList.toggle("rotate-chevron");
         });
-        (toggle as any).hasListener = true;
+        (toggle as any).hasTopLevelListener = true;
       }
     });
+  };
 
+  const attachSubmenuHandlers = () => {
     const subParents = document.querySelectorAll(".dropdown-submenu-parent");
     subParents.forEach(parent => {
       const subToggle = parent.querySelector(".submenu-toggle");
@@ -63,7 +65,8 @@ export default function Header() {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth <= 900) {
-        attachMobileDropdownHandlers();
+        attachTopLevelDropdownHandlers();
+        attachSubmenuHandlers();
       } else {
         document.querySelectorAll(".dropdown-menu.show-mobile, .sub-dropdown-menu.show-mobile")
           .forEach(el => el.classList.remove("show-mobile"));
@@ -76,23 +79,40 @@ export default function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Smooth scroll for anchor links - FIXED TypeScript error
+  // Smooth scroll for anchor links
   useEffect(() => {
     const anchors = document.querySelectorAll('a[href^="#"]');
-    anchors.forEach(anchor => {
-      anchor.addEventListener("click", (e) => {
-        const href = anchor.getAttribute("href");
-        // Check if href is a string and not just "#"
-        if (href && href !== "#") {
-          const target = document.querySelector(href);
-          if (target) {
-            e.preventDefault();
-            target.scrollIntoView({ behavior: "smooth", block: "start" });
-            if (navRef.current?.classList.contains("active")) closeMenu();
-          }
+    const handler = (e: Event) => {
+      const anchor = e.currentTarget as HTMLAnchorElement;
+      const href = anchor.getAttribute("href");
+      if (href && href !== "#") {
+        const target = document.querySelector(href);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: "smooth", block: "start" });
+          if (navRef.current?.classList.contains("active")) closeMenu();
         }
-      });
-    });
+      }
+    };
+    anchors.forEach(a => a.addEventListener("click", handler));
+    return () => anchors.forEach(a => a.removeEventListener("click", handler));
+  }, []);
+
+  // Attach hamburger/overlay event listeners
+  useEffect(() => {
+    const hamburger = hamburgerRef.current;
+    const overlay = overlayRef.current;
+    const navLinks = document.querySelectorAll('.nav__link:not(.dropdown-toggle)');
+    if (hamburger) hamburger.addEventListener("click", toggleMenu);
+    if (overlay) overlay.addEventListener("click", closeMenu);
+    navLinks.forEach(link => link.addEventListener("click", () => {
+      if (navRef.current?.classList.contains("active")) closeMenu();
+    }));
+    return () => {
+      if (hamburger) hamburger.removeEventListener("click", toggleMenu);
+      if (overlay) overlay.removeEventListener("click", closeMenu);
+      navLinks.forEach(link => link.removeEventListener("click", () => {}));
+    };
   }, []);
 
   return (
@@ -108,58 +128,94 @@ export default function Header() {
           id="hamburger"
           aria-label="Toggle navigation"
           aria-expanded="false"
-          onClick={toggleMenu}
         >
           <span></span><span></span><span></span>
         </button>
 
         <nav aria-label="Main navigation">
           <ul ref={navRef} className="nav" id="nav">
-            <li><Link href="/" className="nav__link nav__link--active">Home</Link></li>
-            <li><Link href="/about" className="nav__link">About us</Link></li>
-            <li className="nav-item-has-dropdown" id="servicesDropdownItem">
-              <a href="#" className="nav__link dropdown-toggle" id="servicesToggle">
-                <span>Services</span> <span className="dropdown-chevron">⌵</span>
+            <li><Link href="/" className="nav__link">Home</Link></li>
+            <li><Link href="/about" className="nav__link">About Us</Link></li>
+
+            {/* General Contractor Services */}
+            <li className="nav-item-has-dropdown">
+              <a href="/general-contractor" className="nav__link dropdown-toggle">
+                General Contractor Services <span className="dropdown-chevron">⌵</span>
               </a>
-              <ul className="dropdown-menu" id="servicesDropdownMenu">
+              <ul className="dropdown-menu">
+                {/* Design Services submenu */}
                 <li className="dropdown-submenu-parent">
-                  <a href="#" className="dropdown-link submenu-toggle">
-                    Residential Services <span className="right-arrow">❯</span>
+                  <a href="/design-services" className="dropdown-link submenu-toggle">
+                    Design Services <span className="right-arrow">❯</span>
                   </a>
                   <ul className="sub-dropdown-menu">
-                    <li><Link href="/standby-generator">Stand By Generator</Link></li>
-                    <li><Link href="/ev-chargers-installation">EV Chargers Installation</Link></li>
+                    <li><Link href="/residential-design">Residential design (custom homes, renovations, interiors, landscaping integration)</Link></li>
+                    <li><Link href="/commercial-design">Commercial design (office layouts, retail spaces, restaurant designs, industrial planning)</Link></li>
+                    <li><Link href="/architectural-drawings">Architectural & engineering drawings</Link></li>
+                    <li><Link href="/3d-modeling">3D modeling & project visualization</Link></li>
+                    <li><Link href="/permit-compliance">Permit & code compliance support</Link></li>
                   </ul>
                 </li>
-                <li><Link href="/commercial-services" className="dropdown-link">Commercial Services</Link></li>
-                <li><Link href="/industrial-services" className="dropdown-link">Industrial Services</Link></li>
-                <li><Link href="/electrical-engineering" className="dropdown-link">Electrical Engineering Services</Link></li>
-                <li><Link href="/247-troubleshooting" className="dropdown-link">24/7 Troubleshooting & Repairs</Link></li>
-                <li><Link href="/projects-capabilities" className="dropdown-link">Projects and Capabilities</Link></li>
+                {/* Build Services submenu */}
+                <li className="dropdown-submenu-parent">
+                  <a href="/build-services" className="dropdown-link submenu-toggle">
+                    Build Services <span className="right-arrow">❯</span>
+                  </a>
+                  <ul className="sub-dropdown-menu">
+                    <li><Link href="/new-residential-construction">New residential construction</Link></li>
+                    <li><Link href="/commercial-construction">Commercial construction (tenant improvements, office buildings, warehouses)</Link></li>
+                    <li><Link href="/project-management">Project management & general contracting</Link></li>
+                    <li><Link href="/quality-assurance">Quality assurance & safety control</Link></li>
+                    <li><Link href="/sustainable-solutions">Sustainable & energy-efficient solutions</Link></li>
+                  </ul>
+                </li>
+                {/* Emergency Services submenu */}
+                <li className="dropdown-submenu-parent">
+                  <a href="/emergency-services" className="dropdown-link submenu-toggle">
+                    Emergency Services (24/7 availability) <span className="right-arrow">❯</span>
+                  </a>
+                  <ul className="sub-dropdown-menu">
+                    <li><Link href="/fire-storm-flood-restoration">Fire, storm, and flood damage restoration</Link></li>
+                    <li><Link href="/electrical-structural-repairs">Electrical and structural emergency repairs</Link></li>
+                    <li><Link href="/roof-plumbing-emergencies">Roof leaks and plumbing emergencies</Link></li>
+                    <li><Link href="/secure-unsafe-structures">Securing unsafe structures</Link></li>
+                    <li><Link href="/insurance-claim-assistance">Insurance claim assistance</Link></li>
+                  </ul>
+                </li>
+                {/* Remodeling Services submenu */}
+                <li className="dropdown-submenu-parent">
+                  <a href="/remodeling-services" className="dropdown-link submenu-toggle">
+                    Remodeling Services <span className="right-arrow">❯</span>
+                  </a>
+                  <ul className="sub-dropdown-menu">
+                    <li><Link href="/residential-remodeling">Residential remodeling (kitchens, bathrooms, basements, whole-home upgrades)</Link></li>
+                    <li><Link href="/commercial-remodeling">Commercial remodeling (office renovations, retail build-outs, restaurant redesigns)</Link></li>
+                    <li><Link href="/additions-expansions">Additions and expansions</Link></li>
+                    <li><Link href="/green-smart-remodeling">Green remodeling & smart home integration</Link></li>
+                    <li><Link href="/ada-compliance">ADA compliance upgrades</Link></li>
+                  </ul>
+                </li>
               </ul>
             </li>
-            <li><Link href="/contact" className="nav__link">Contact us</Link></li>
-            <li><Link href="/faqs" className="nav__link">FAQs</Link></li>
+
+            {/* Industries We Serve */}
             <li className="nav-item-has-dropdown">
-              <a href="#" className="nav__link dropdown-toggle" id="serviceAreaToggle">
-                Service Area <span className="dropdown-chevron">⌵</span>
+              <a href="/industries" className="nav__link dropdown-toggle">
+                Industries We Serve <span className="dropdown-chevron">⌵</span>
               </a>
-              <ul className="dropdown-menu" id="serviceAreaDropdown">
-                <li><Link href="/tampa" className="dropdown-link">Tampa</Link></li>
-                <li><Link href="/citrus" className="dropdown-link">Citrus</Link></li>
-                <li><Link href="/hernando" className="dropdown-link">Hernando</Link></li>
-                <li><Link href="/hillsborough" className="dropdown-link">Hillsborough</Link></li>
-                <li><Link href="/manatee" className="dropdown-link">Manatee</Link></li>
-                <li><Link href="/pasco" className="dropdown-link">Pasco</Link></li>
-                <li><Link href="/pinellas" className="dropdown-link">Pinellas</Link></li>
-                <li><Link href="/polk" className="dropdown-link">Polk</Link></li>
-                <li><Link href="/sarasota" className="dropdown-link">Sarasota</Link></li>
+              <ul className="dropdown-menu">
+                <li><Link href="/residential-industries" className="dropdown-link">Residential – Homeowners, landlords, property managers</Link></li>
+                <li><Link href="/commercial-industries" className="dropdown-link">Commercial – Office buildings, retail stores, restaurants, industrial spaces, healthcare facilities</Link></li>
               </ul>
             </li>
-            <li><Link href="/blog" className="nav__link">Blog</Link></li>
+
+            <li><Link href="/electrical-contractor-services" className="nav__link">Electrical Services</Link></li>
+            <li><Link href="/faq" className="nav__link">FAQ</Link></li>
+            <li><Link href="/blog" className="nav__link">Blogs</Link></li>
+            <li><Link href="/contact" className="nav__link">Contact Us</Link></li>
           </ul>
         </nav>
-        <div ref={overlayRef} className="nav-overlay" id="navOverlay" onClick={closeMenu}></div>
+        <div ref={overlayRef} className="nav-overlay" id="navOverlay"></div>
       </div>
     </header>
   );
