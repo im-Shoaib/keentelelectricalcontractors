@@ -1,18 +1,43 @@
 // src/components/ContactSection.tsx
 "use client";
 
+import { useEffect, useRef } from "react";
+
 export default function ContactSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const animatedRef = useRef(false);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+    const leftCol = document.querySelector('.sec9-contact__left');
+    const rightCol = document.querySelector('.sec9-contact__right');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !animatedRef.current) {
+          leftCol?.classList.add('animated');
+          rightCol?.classList.add('animated');
+          animatedRef.current = true;
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.2 });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="contact" className="sec9-contact">
+    <section id="contact" ref={sectionRef} className="sec9-contact">
       <div className="sec9-contact__inner">
-        {/* Left Column: Experience + CTA */}
         <div className="sec9-contact__left">
-          <span className="sec9-contact__badge">The Keentel Difference</span>
+          <span className="sec9-contact__badge">
+            <span className="sec9-contact__badge-dot"></span>
+            The Keentel Difference
+          </span>
           <h2 className="sec9-contact__title">Experience the Keentel Difference in Tampa's Electrical Services</h2>
           <p className="sec9-contact__desc">
             Choose Keentel Electrical Contractors and experience a unique blend of precision, reliability, and customer-focused service that stands out in the Tampa Bay area. Unlike others, we blend decades of expertise with continuous innovation in residential and commercial electrical services. Proudly serving Hillsborough, Polk, Pasco, Pinellas, and Sarasota, we are your local experts committed to safety and quality that exceeds expectations.
           </p>
-
           <div className="sec9-contact__cta-block">
             <h3 className="sec9-contact__cta-title">Get in Touch with Keentel Electrical Contractors</h3>
             <p className="sec9-contact__cta-text">For reliable, safe, and professional electrical services in Tampa, FL, contact us today. Whether you need a panel upgrade, lighting installation, or emergency repair, Keentel is here to power your home and business.</p>
@@ -22,8 +47,6 @@ export default function ContactSection() {
             </div>
           </div>
         </div>
-
-        {/* Right Column: Contact Info + Form */}
         <div className="sec9-contact__right">
           <div className="sec9-contact__info">
             <h3 className="sec9-contact__info-title">Contact Us Today</h3>
@@ -48,21 +71,20 @@ export default function ContactSection() {
               <span>400 North Ashley Drive, Suite 2600, Tampa, FL 33602</span>
             </div>
           </div>
-
           <div className="sec9-contact__form-wrapper">
             <h3 className="sec9-contact__form-title">Request a Free Quote Online</h3>
-            <form className="sec9-contact__form" id="quoteForm" onSubmit={(e) => { e.preventDefault(); alert("Thank you! We'll contact you soon."); }}>
+            <form className="sec9-contact__form" onSubmit={(e) => { e.preventDefault(); alert("Thank you! We'll contact you soon."); }}>
               <div className="sec9-contact__form-group">
-                <input type="text" id="name" name="name" placeholder="Your Name" required className="sec9-contact__input" />
+                <input type="text" name="name" placeholder="Your Name" required className="sec9-contact__input" />
               </div>
               <div className="sec9-contact__form-group">
-                <input type="email" id="email" name="email" placeholder="Email Address" required className="sec9-contact__input" />
+                <input type="email" name="email" placeholder="Email Address" required className="sec9-contact__input" />
               </div>
               <div className="sec9-contact__form-group">
-                <input type="tel" id="phone" name="phone" placeholder="Phone Number" required className="sec9-contact__input" />
+                <input type="tel" name="phone" placeholder="Phone Number" required className="sec9-contact__input" />
               </div>
               <div className="sec9-contact__form-group">
-                <textarea id="message" name="message" rows={4} placeholder="Your Message" required className="sec9-contact__textarea"></textarea>
+                <textarea name="message" rows={4} placeholder="Your Message" required className="sec9-contact__textarea"></textarea>
               </div>
               <button type="submit" className="btn btn--primary sec9-contact__submit">Send Message →</button>
             </form>
