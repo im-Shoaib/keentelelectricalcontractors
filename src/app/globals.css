@@ -285,6 +285,34 @@
         }
         .nav-overlay.active { display: block; }
 
+        /* Hover underline effect for main nav links */
+.nav__link {
+    position: relative;
+}
+
+.nav__link::after {
+    content: '';
+    position: absolute;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 2px;
+    background-color: var(--color-red);
+    transition: width 0.2s ease;
+    border-radius: 1px;
+}
+
+.nav__link:hover::after {
+    width: calc(100% - 26px); /* adjusts for padding */
+}
+
+/* Keep active link underline style separate */
+.nav__link--active::after {
+    width: calc(100% - 26px);
+    background-color: var(--color-magenta);
+}
+
         /* responsive (mobile) adjustments for dropdowns */
         @media (max-width: 900px) {
             .hamburger { display: flex; margin-left: auto; }
@@ -497,6 +525,75 @@
     box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
 }
 
+/* Glowing dot before badge */
+.sec1-hero__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec1-hero__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% {
+        opacity: 0.5;
+        box-shadow: 0 0 2px var(--color-red);
+    }
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 8px var(--color-red);
+    }
+    100% {
+        opacity: 0.5;
+        box-shadow: 0 0 2px var(--color-red);
+    }
+}
+
+/* Fade-in upward animation for all hero content elements */
+.sec1-hero__content > * {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.sec1-hero__badge {
+    animation-delay: 0s;
+}
+
+.sec1-hero__title {
+    animation-delay: 0.1s;
+}
+
+.sec1-hero__subtitle {
+    animation-delay: 0.2s;
+}
+
+.sec1-hero__desc {
+    animation-delay: 0.3s;
+}
+
+.sec1-hero__buttons {
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .sec1-hero {
@@ -559,8 +656,8 @@
     }
 }
 
-        /* ========== ABOUT US SECTION (sec2 - premium redesign) ========== */
-/* ========== ABOUT US SECTION (sec2) – PREMIUM EDITORIAL ========== */
+        /* ========== ABOUT US SECTION (sec2) ========== */
+
 .sec2-about {
     padding: 100px 20px;
     background: linear-gradient(135deg, #ffffff 0%, #faf9fc 100%);
@@ -748,6 +845,64 @@
     background-color: #921f18;
     gap: 12px;
     padding-right: 38px;
+}
+
+/* ========== SEC2 ADDITIONS ========== */
+
+/* Glowing dot for badge */
+.sec2-about__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec2-about__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Fade-in upward animation for text elements (scroll triggered) */
+.sec2-about__badge,
+.sec2-about__title,
+.sec2-about__subtitle,
+.sec2-about__desc,
+.sec2-about__signature,
+.sec2-about__contact {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.sec2-about__badge.animated,
+.sec2-about__title.animated,
+.sec2-about__subtitle.animated,
+.sec2-about__desc.animated,
+.sec2-about__signature.animated,
+.sec2-about__contact.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Contact box border glow on hover */
+.sec2-about__contact {
+    transition: all 0.3s ease;
+}
+
+.sec2-about__contact:hover {
+    border-color: var(--color-red);
+    box-shadow: 0 0 15px rgba(174, 43, 34, 0.3);
+    transform: translateY(-2px);
 }
 
 /* Responsive */
@@ -957,6 +1112,98 @@
     z-index: 2;
 }
 
+/* ========== SEC3 – SCROLL REVEAL (hidden until scrolled into view) ========== */
+
+/* Glowing dot (always visible) */
+.sec3-service-area__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec3-service-area__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Initial hidden state */
+.sec3-service-area__badge,
+.sec3-service-area__title,
+.sec3-service-area__desc,
+.sec3-service-area__button-wrapper {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Animated state – added by JS when section becomes visible */
+.sec3-service-area__badge.animated,
+.sec3-service-area__title.animated,
+.sec3-service-area__desc.animated,
+.sec3-service-area__button-wrapper.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Compass styling (always visible) */
+.sec3-service-area__image-wrapper {
+    position: relative;
+    transition: all 0.3s ease;
+    border-radius: var(--radius-md);
+}
+
+.sec3-service-area__compass {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 5;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+}
+
+.sec3-service-area__compass svg {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-navy);
+    stroke: none;
+}
+
+/* Border glow on map hover */
+.sec3-service-area__image-wrapper:hover {
+    box-shadow: 0 0 0 2px var(--color-red), 0 0 0 6px rgba(174, 43, 34, 0.2);
+}
+
+/* Animated location icon inside floating badge */
+.sec3-service-area__visual-badge span {
+    display: inline-flex;
+    animation: iconPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes iconPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1); opacity: 0.8; }
+}
+
 /* Responsive */
 @media (max-width: 900px) {
     .sec3-service-area {
@@ -1137,6 +1384,72 @@
     margin: 0 auto;
 }
 
+/* ========== SEC4 – SCROLL REVEAL (glowing dot, fade‑up, card animations) ========== */
+
+/* Glowing dot */
+.sec4-residential__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec4-residential__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Initial hidden state for header elements */
+.sec4-residential__badge,
+.sec4-residential__title,
+.sec4-residential__intro,
+.sec4-residential__grid,
+.sec4-residential__footer {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Animated state – added by JS when section becomes visible */
+.sec4-residential__badge.animated,
+.sec4-residential__title.animated,
+.sec4-residential__intro.animated,
+.sec4-residential__grid.animated,
+.sec4-residential__footer.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Individual cards – hidden initially, will be revealed with delay */
+.sec4-residential__card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* When grid gets .animated class, each card appears with delay */
+.sec4-residential__grid.animated .sec4-residential__card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sec4-residential__grid.animated .sec4-residential__card:nth-child(1) { transition-delay: 0.05s; }
+.sec4-residential__grid.animated .sec4-residential__card:nth-child(2) { transition-delay: 0.1s; }
+.sec4-residential__grid.animated .sec4-residential__card:nth-child(3) { transition-delay: 0.15s; }
+.sec4-residential__grid.animated .sec4-residential__card:nth-child(4) { transition-delay: 0.2s; }
+.sec4-residential__grid.animated .sec4-residential__card:nth-child(5) { transition-delay: 0.25s; }
+.sec4-residential__grid.animated .sec4-residential__card:nth-child(6) { transition-delay: 0.3s; }
+
 /* responsive */
 @media (max-width: 768px) {
     .sec4-residential {
@@ -1311,6 +1624,73 @@
     max-width: 800px;
     margin: 0 auto;
 }
+
+/* ========== SEC5 – SCROLL REVEAL (glowing dot, fade‑up, card animations) ========== */
+
+/* Glowing dot */
+.sec5-commercial__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec5-commercial__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+/* Gentle glow keyframes – reuse from sec4 (already defined, but safe to redeclare) */
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Initial hidden state for header elements */
+.sec5-commercial__badge,
+.sec5-commercial__title,
+.sec5-commercial__intro,
+.sec5-commercial__grid,
+.sec5-commercial__footer {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Animated state – added by JS when section becomes visible */
+.sec5-commercial__badge.animated,
+.sec5-commercial__title.animated,
+.sec5-commercial__intro.animated,
+.sec5-commercial__grid.animated,
+.sec5-commercial__footer.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Individual cards – hidden initially */
+.sec5-commercial__card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* When grid gets .animated class, each card appears with delay */
+.sec5-commercial__grid.animated .sec5-commercial__card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sec5-commercial__grid.animated .sec5-commercial__card:nth-child(1) { transition-delay: 0.05s; }
+.sec5-commercial__grid.animated .sec5-commercial__card:nth-child(2) { transition-delay: 0.1s; }
+.sec5-commercial__grid.animated .sec5-commercial__card:nth-child(3) { transition-delay: 0.15s; }
+.sec5-commercial__grid.animated .sec5-commercial__card:nth-child(4) { transition-delay: 0.2s; }
+.sec5-commercial__grid.animated .sec5-commercial__card:nth-child(5) { transition-delay: 0.25s; }
+.sec5-commercial__grid.animated .sec5-commercial__card:nth-child(6) { transition-delay: 0.3s; }
 
 /* responsive */
 @media (max-width: 768px) {
@@ -1487,6 +1867,72 @@
     margin: 0 auto;
 }
 
+/* ========== SEC6 – SCROLL REVEAL (glowing dot, fade‑up, card animations) ========== */
+
+/* Glowing dot */
+.sec6-industrial__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec6-industrial__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Initial hidden state for header elements */
+.sec6-industrial__badge,
+.sec6-industrial__title,
+.sec6-industrial__intro,
+.sec6-industrial__grid,
+.sec6-industrial__footer {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Animated state – added by JS when section becomes visible */
+.sec6-industrial__badge.animated,
+.sec6-industrial__title.animated,
+.sec6-industrial__intro.animated,
+.sec6-industrial__grid.animated,
+.sec6-industrial__footer.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Individual cards – hidden initially */
+.sec6-industrial__card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* When grid gets .animated class, each card appears with delay */
+.sec6-industrial__grid.animated .sec6-industrial__card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sec6-industrial__grid.animated .sec6-industrial__card:nth-child(1) { transition-delay: 0.05s; }
+.sec6-industrial__grid.animated .sec6-industrial__card:nth-child(2) { transition-delay: 0.1s; }
+.sec6-industrial__grid.animated .sec6-industrial__card:nth-child(3) { transition-delay: 0.15s; }
+.sec6-industrial__grid.animated .sec6-industrial__card:nth-child(4) { transition-delay: 0.2s; }
+.sec6-industrial__grid.animated .sec6-industrial__card:nth-child(5) { transition-delay: 0.25s; }
+.sec6-industrial__grid.animated .sec6-industrial__card:nth-child(6) { transition-delay: 0.3s; }
+
 /* responsive */
 @media (max-width: 768px) {
     .sec6-industrial {
@@ -1527,7 +1973,7 @@
 .sec7-trust {
     position: relative;
     padding: 100px 20px;
-    background-image: url('/assets/sec7.jpg'); 
+    background-image: url('assets/sec7.jpg'); /* Replace with your image */
     background-size: cover;
     background-position: center;
     background-attachment: fixed; /* optional parallax effect */
@@ -1751,6 +2197,68 @@
     line-height: 1.6;
 }
 
+/* ========== SEC8 – SCROLL REVEAL (glowing dot, fade‑up, card animations) ========== */
+
+/* Glowing dot */
+.sec8-why-choose__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec8-why-choose__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Initial hidden state for header elements */
+.sec8-why-choose__badge,
+.sec8-why-choose__title,
+.sec8-why-choose__intro,
+.sec8-why-choose__grid {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* Animated state – added by JS when section becomes visible */
+.sec8-why-choose__badge.animated,
+.sec8-why-choose__title.animated,
+.sec8-why-choose__intro.animated,
+.sec8-why-choose__grid.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Cards – hidden initially */
+.sec8-why-choose__card {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* When grid gets .animated class, each card appears with delay */
+.sec8-why-choose__grid.animated .sec8-why-choose__card {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.sec8-why-choose__grid.animated .sec8-why-choose__card:nth-child(1) { transition-delay: 0.05s; }
+.sec8-why-choose__grid.animated .sec8-why-choose__card:nth-child(2) { transition-delay: 0.1s; }
+.sec8-why-choose__grid.animated .sec8-why-choose__card:nth-child(3) { transition-delay: 0.15s; }
+.sec8-why-choose__grid.animated .sec8-why-choose__card:nth-child(4) { transition-delay: 0.2s; }
+
 /* responsive */
 @media (max-width: 768px) {
     .sec8-why-choose {
@@ -1973,6 +2481,105 @@
     gap: 12px;
 }
 
+/* ========== SEC9 – SCROLL REVEAL & HOVER GLOW EFFECTS ========== */
+
+/* Glowing dot */
+.sec9-contact__badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sec9-contact__badge-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-red);
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: 0 0 4px var(--color-red);
+    animation: gentleGlow 1.8s ease-in-out infinite;
+}
+
+@keyframes gentleGlow {
+    0% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+    50% { opacity: 1; box-shadow: 0 0 8px var(--color-red); }
+    100% { opacity: 0.5; box-shadow: 0 0 2px var(--color-red); }
+}
+
+/* Initial hidden state for left and right columns (will be revealed on scroll) */
+.sec9-contact__left,
+.sec9-contact__right {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+/* Animated state – added by JS */
+.sec9-contact__left.animated,
+.sec9-contact__right.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Optional: Stagger the two columns */
+.sec9-contact__left.animated {
+    transition-delay: 0s;
+}
+.sec9-contact__right.animated {
+    transition-delay: 0.15s;
+}
+
+/* ===== HOVER GLOW EFFECTS ===== */
+
+/* Input fields and textarea glow on hover */
+.sec9-contact__input:hover,
+.sec9-contact__textarea:hover {
+    border-color: var(--color-red);
+    box-shadow: 0 0 0 2px rgba(174, 43, 34, 0.15);
+}
+
+/* Contact info items glow on hover */
+.sec9-contact__info-item {
+    transition: all 0.2s ease;
+    padding: 6px 10px;
+    margin: 0 -10px 10px -10px;
+    border-radius: var(--radius-sm);
+}
+
+.sec9-contact__info-item:hover {
+    background: rgba(174, 43, 34, 0.05);
+    transform: translateX(4px);
+}
+
+.sec9-contact__info-item:hover .sec9-contact__info-icon {
+    color: var(--color-red);
+    transform: scale(1.1);
+}
+
+/* Form submit button glow on hover (already has style, just enhance) */
+.sec9-contact__submit:hover {
+    box-shadow: 0 0 0 3px rgba(174, 43, 34, 0.3);
+}
+
+/* CTA block hover effect */
+.sec9-contact__cta-block {
+    transition: all 0.3s ease;
+}
+
+.sec9-contact__cta-block:hover {
+    border-color: var(--color-red);
+    box-shadow: 0 8px 25px -8px rgba(174, 43, 34, 0.2);
+}
+
+/* Right column container hover glow */
+.sec9-contact__right {
+    transition: all 0.3s ease;
+}
+
+.sec9-contact__right:hover {
+    border-color: var(--color-red);
+    box-shadow: 0 8px 30px -12px rgba(174, 43, 34, 0.25);
+}
 /* responsive */
 @media (max-width: 900px) {
     .sec9-contact__inner {
